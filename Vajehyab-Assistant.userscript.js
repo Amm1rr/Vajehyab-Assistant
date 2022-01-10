@@ -4,7 +4,7 @@
 // @name:fa      	دستیار واژه‌یاب
 // @version         0.2
 // @namespace       mkh
-// @author          Soheyl
+// @author          Soheyl (soheyl637@gmail.com)
 // @description     Use the VajehYab.com website as a dictionary just by double-clicking on any text. It's a translator.
 // @description:fa  کلمه انتخاب شده را در سایت واژه‌یاب جستجو می‌کند و نمایش می‌دهد
 // @include         *
@@ -12,13 +12,22 @@
 // @source          https://github.com/Soheyl/Vajehyab-Assistant/blob/main/Vajehyab-Assistant.userscript.js
 // @updateURL       https://github.com/Soheyl/Vajehyab-Assistant/raw/main/Vajehyab-Assistant.userscript.js
 // @supportURL      https://github.com/Soheyl/Vajehyab-Assistant/issues
-//
-//
 // @icon            https://vajehyab.com/icn/favicon.ico
 // @require         https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require         https://code.jquery.com/jquery-3.6.0.slim.min.js
+// @resource        https://vajehyab.com/index.php
+// @resource        https://www.vajehyab.com/fnt/ttf/IRANSansWeb_UltraLight.ttf
+// @resource        https://www.vajehyab.com/fnt/ttf/IRANSansWeb_Light.ttf
+// @resource        https://www.vajehyab.com/fnt/woff/IRANSansWeb_UltraLight.woff
+// @resource        https://www.vajehyab.com/fnt/woff/IRANSansWeb_Light.woff
+// @resource        https://www.vajehyab.com/fnt/woff2/IRANSansWeb_UltraLight.woff2
+// @resource        https://www.vajehyab.com/fnt/woff2/IRANSansWeb_Light.woff2
 // @grant           GM_xmlhttpRequest
+// @grant           GM_getResourceText
 // @connect         vajehyab.com
+// @connect         jquery.com
+// @connect         github.io
+// @connect         github.com
 // @license         MIT
 // ==/UserScript==
 
@@ -318,7 +327,7 @@ function translate(e) {
     vajehWindow.style.opacity = "0.9";
     vajehWindow.style.width = "20%";
     vajehWindow.style.wordWrap = "break-word";
-    vajehWindow.style.left = (mx - 40) + "px";
+    vajehWindow.style.left = mx - 40 + "px";
     vajehWindow.style.dir = "rtl";
 
     var cssstyle = {
@@ -350,7 +359,7 @@ function translate(e) {
       //vajehWindow.style.bottom = "10px";
       //console.log("Height bottom");
     } else {
-      vajehWindow.style.top = (my + 15) + "px";
+      vajehWindow.style.top = my + 15 + "px";
       //console.log("Height top");
     }
     vajehWindow.style.padding = "5px";
