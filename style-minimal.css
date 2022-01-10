@@ -258,12 +258,12 @@ p {
 }
 * {
     outline: none;
-    direction: rtl;
+    direction: rtl !important;
     text-align: right;
 }
 html,
 body {
-    direction: ltr;
+    direction: rtl !important;
 }
 body {
     padding-bottom: 50px;
