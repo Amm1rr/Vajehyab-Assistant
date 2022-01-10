@@ -31,6 +31,7 @@ You can use install VajehYab Assistant by [**GreasyFork website**][Greasyfork].
 
 #### یک روش دیگر برای نصب:
 بعد از نصب یکی از افزونه‌های برید به سایت مخصوص [اسکریپت][Greasyfork] و برروی دکمه **نصب** کلیک کنید. 
+
     https://greasyfork.org/en/scripts/438293-vajehyab-assistan
 
 ## نکته
