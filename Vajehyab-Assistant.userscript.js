@@ -1,40 +1,32 @@
 // ==UserScript==
 // @id              VajehyabAssistan
 // @name            Vajehyab Assistan
-// @name:fa      	دستیار واژه‌یاب
-// @version         0.2
+// @name:fa      	  دستیار واژه‌یاب
+// @version         0.3
 // @namespace       mkh
 // @author          Soheyl (soheyl637@gmail.com)
 // @description     Use the VajehYab.com website as a dictionary just by double-clicking on any text. It's a translator.
 // @description:fa  کلمه انتخاب شده را در سایت واژه‌یاب جستجو می‌کند و نمایش می‌دهد
 // @include         *
 // @homepage        https://github.com/Soheyl/Vajehyab-Assistant
-// @source          https://github.com/Soheyl/Vajehyab-Assistant/blob/main/Vajehyab-Assistant.userscript.js
-// @updateURL       https://github.com/Soheyl/Vajehyab-Assistant/raw/main/Vajehyab-Assistant.userscript.js
-// @supportURL      https://github.com/Soheyl/Vajehyab-Assistant/issues
 // @icon            https://vajehyab.com/icn/favicon.ico
+// @source          https://github.com/Soheyl/Vajehyab-Assistant
+// @updateURL       https://cdn.jsdelivr.net/gh/Soheyl/Vajehyab-Assistant@main/Vajehyab-Assistant.userscript.js
+// @supportURL      https://github.com/Soheyl/Vajehyab-Assistant/issues
 // @require         https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require         https://code.jquery.com/jquery-3.6.0.slim.min.js
 // @resource        https://vajehyab.com/index.php
-// @resource        https://www.vajehyab.com/fnt/ttf/IRANSansWeb_UltraLight.ttf
-// @resource        https://www.vajehyab.com/fnt/ttf/IRANSansWeb_Light.ttf
-// @resource        https://www.vajehyab.com/fnt/woff/IRANSansWeb_UltraLight.woff
-// @resource        https://www.vajehyab.com/fnt/woff/IRANSansWeb_Light.woff
-// @resource        https://www.vajehyab.com/fnt/woff2/IRANSansWeb_UltraLight.woff2
-// @resource        https://www.vajehyab.com/fnt/woff2/IRANSansWeb_Light.woff2
+// @resource        https://cdn.jsdelivr.net/gh/Soheyl/Vajehyab-Assistant@main/style-minimal.css
 // @grant           GM_xmlhttpRequest
 // @grant           GM_getResourceText
 // @connect         vajehyab.com
-// @connect         jquery.com
-// @connect         github.io
-// @connect         github.com
 // @license         MIT
 // ==/UserScript==
 
 /*
 waitForKeyElements (".-cx-PRIVATE-ProfilePage__avatar", visibleCounter);
 function visibleCounter(jNode){
-    myCode()
+    // Custome Code
 }
 */
 
@@ -56,67 +48,6 @@ function toggleVajehyab(e) {
       toggle = true;
     }
   }
-}
-
-function MakeVIP(doc) {
-  try {
-    if (doc != undefined || doc != null) {
-      doc.getElementById("magicword").classList.replace("nopremium", "premium");
-      doc.getElementById("is_premium").value = "1";
-      doc.getElementsByClassName("vyads")[0].remove();
-      doc.querySelector("#content > div.vyads").remove();
-      let showmorepremiumbtn = doc.querySelector("#wordbox > a");
-      showmorepremiumbtn.remove();
-    }
-    if (window.location.href.indexOf("vajehyab.com") > -1) {
-      /* Todo:
-                      - It's not optimize and also might not need to use if condition Is
-                  */
-      if (document.getElementById("magicword") == null) {
-        return;
-      }
-      document
-        .getElementById("magicword")
-        .classList.replace("nopremium", "premium");
-      document.getElementById("is_premium").value = "1";
-      document.getElementsByClassName("vyads")[0].remove;
-      document.querySelector("#content > div.vyads").remove;
-      let showmorepremiumbtn = document.querySelector("#wordbox > a");
-      showmorepremiumbtn.remove();
-    }
-  } catch (err) {
-    if (err != nil) {
-      console.log(err);
-    }
-  } finally {
-    return doc;
-  }
-}
-
-function PrintElem(elem) {
-  var mywindow = window.open("", "PRINT", "height=400,width=600");
-
-  mywindow.document.write("<html><head><title>" + document.title + "</title>");
-  mywindow.document.write("</head><body >");
-  mywindow.document.write("<h1>" + document.title + "</h1>");
-  mywindow.document.write(document.getElementById(elem).innerHTML);
-  mywindow.document.write("</body></html>");
-
-  mywindow.document.close(); // necessary for IE >= 10
-  mywindow.focus(); // necessary for IE >= 10*/
-
-  mywindow.print();
-  mywindow.close();
-
-  return true;
-}
-
-function printDiv(divName) {
-  var printContents = document.getElementById(divName).innerHTML;
-  var originalContents = document.body.innerHTML;
-  document.body.innerHTML = printContents;
-  window.print();
-  document.body.innerHTML = originalContents;
 }
 
 function Clean_Result(doc) {
@@ -170,8 +101,9 @@ function Clean_Result(doc) {
       return null;
     }
 
+    let NotFound = "\n            نتیجه‌ای یافت نگردید.         ";
     //-- Remove Button Dictionary Section (Don't need anymore (انگلیسی، ترکی، عربی))
-    if ($Dic == null || $Dic == "نتیجه‌ای یافت نگردید.") {
+    if ($Dic == null || $Dic.innerHTML == NotFound) {
       docword.querySelector("#wordbox > section.dictionary").remove();
     }
   }
@@ -311,7 +243,7 @@ function translate(e) {
     var vajehString = new XMLSerializer().serializeToString(vajehWindow);
     var html =
       "<html><head><title>واژه‌یاب فارسی</title>" +
-      '<link rel="stylesheet" href="https://www.vajehyab.com/cdn/style.min.css?v=1.2">' +
+      ' <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Soheyl/Vajehyab-Assistant@main/style-minimal.css">' +
       ' </head><body style="padding-bottom: 0px;">' +
       vajehString +
       "</body></html>";
@@ -475,8 +407,7 @@ function translate(e) {
   }
 
   function translate(word, ts) {
-    //var reqUrl = `http://fanyi.youdao.com/openapi.do?type=data&doctype=json&version=1.1&relatedUrl=http%3A%2F%2Ffanyi.youdao.com%2F%23&keyfrom=fanyiweb&key=null&translate=on&q=${word}&ts=${ts}`;
-    // var reqUrl = `https://www.vajehyab.com/?q=${word}&d=en&_=1617191412351`;
+    // var reqUrl = `https://www.vajehyab.com/?q=${word}&d=en&_=1617191412351&ts=${ts}`;
     var reqUrl = `https://www.vajehyab.com/?q=${word}&d=en`;
     // console.log("request url: ", reqUrl);
     var ret = GM.xmlHttpRequest({
@@ -496,4 +427,81 @@ function translate(e) {
       },
     });
   }
+}
+
+function MakeVIP(doc) {
+  try {
+    if (doc != null || doc != undefined) {
+      let magicword = doc.getElementById("magicword");
+      if (magicword != null && magicword != undefined) {
+        magicword.classList.replace("nopremium", "premium");
+      }
+      let ispre = doc.getElementById("is_premium");
+      if (ispre != nul && ispre != undefined) {
+        ispre.value = "1";
+      }
+
+      let isads = doc.getElementsByClassName("vyads");
+      if (isads != null && isads != undefined) {
+        isads[0].remove();
+      }
+      let ads = doc.querySelector("#content > div.vyads");
+      if (ads != null && ads != undefined) {
+        ads.remove();
+      }
+      let showmorepremiumbtn = doc.querySelector("#wordbox > a");
+      if (showmorepremiumbtn != null && showmorepremiumbtn != undefined) {
+        showmorepremiumbtn.remove();
+      }
+    }
+    if (window.location.href.indexOf("vajehyab.com") > -1) {
+      /* Todo:
+                      - It's not optimize and also might not need to use IF condition Is
+                  */
+      let magicword = document.getElementById("magicword");
+      if (magicword == null || magicword == undefined) {
+        return;
+      }
+      magicword.classList.replace("nopremium", "premium");
+      document.getElementById("is_premium").value = "1";
+      document.getElementsByClassName("vyads")[0].remove;
+      document.querySelector("#content > div.vyads").remove;
+      let showmorepremiumbtn = document.querySelector("#wordbox > a");
+      if (showmorepremiumbtn != null && showmorepremiumbtn != undefined) {
+        showmorepremiumbtn.remove();
+      }
+    }
+  } catch (err) {
+    if (err != nul) {
+      console.log(err);
+    }
+  } finally {
+    return doc;
+  }
+}
+
+function PrintElem_DEBUG(elem) {
+  var mywindow = window.open("", "PRINT", "height=400,width=600");
+
+  mywindow.document.write("<html><head><title>" + document.title + "</title>");
+  mywindow.document.write("</head><body >");
+  mywindow.document.write("<h1>" + document.title + "</h1>");
+  mywindow.document.write(document.getElementById(elem).innerHTML);
+  mywindow.document.write("</body></html>");
+
+  mywindow.document.close(); // necessary for IE >= 10
+  mywindow.focus(); // necessary for IE >= 10*/
+
+  mywindow.print();
+  mywindow.close();
+
+  return true;
+}
+
+function printDiv_DEBUG(divName) {
+  var printContents = document.getElementById(divName).innerHTML;
+  var originalContents = document.body.innerHTML;
+  document.body.innerHTML = printContents;
+  window.print();
+  document.body.innerHTML = originalContents;
 }
