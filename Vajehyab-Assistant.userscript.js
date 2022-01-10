@@ -1,18 +1,24 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @id              VajehyabAssistan
 // @name            Vajehyab Assistan
 // @name:fa      	دستیار واژه‌یاب
-// @version         0.1
+// @version         0.2
 // @namespace       mkh
 // @author          Soheyl
-// @description     Search in VajehYab website any text selected into a tooltip
+// @description     Use the VajehYab.com website as a dictionary just by double-clicking on any text. It's a translator.
 // @description:fa  کلمه انتخاب شده را در سایت واژه‌یاب جستجو می‌کند و نمایش می‌دهد
 // @include         *
-// @icon            https://www.google.com/s2/favicons?domain=vajehyab.com
+// @homepage        https://github.com/Soheyl/Vajehyab-Assistant
+// @source          https://github.com/Soheyl/Vajehyab-Assistant/blob/main/Vajehyab-Assistant.userscript.js
+// @updateURL       https://github.com/Soheyl/Vajehyab-Assistant/raw/main/Vajehyab-Assistant.userscript.js
+// @supportURL      https://github.com/Soheyl/Vajehyab-Assistant/issues
+//
+//
+// @icon            https://vajehyab.com/icn/favicon.ico
 // @require         https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require         https://code.jquery.com/jquery-3.6.0.slim.min.js
 // @grant           GM_xmlhttpRequest
-// @grant           GM.xmlHttpRequest
+// @connect         vajehyab.com
 // @license         MIT
 // ==/UserScript==
 
@@ -48,8 +54,10 @@ function MakeVIP(doc) {
     if (doc != undefined || doc != null) {
       doc.getElementById("magicword").classList.replace("nopremium", "premium");
       doc.getElementById("is_premium").value = "1";
-      doc.getElementsByClassName("vyads")[0].remove;
-      doc.querySelector("#content > div.vyads").remove;
+      doc.getElementsByClassName("vyads")[0].remove();
+      doc.querySelector("#content > div.vyads").remove();
+      let showmorepremiumbtn = doc.querySelector("#wordbox > a");
+      showmorepremiumbtn.remove();
     }
     if (window.location.href.indexOf("vajehyab.com") > -1) {
       /* Todo:
@@ -64,6 +72,8 @@ function MakeVIP(doc) {
       document.getElementById("is_premium").value = "1";
       document.getElementsByClassName("vyads")[0].remove;
       document.querySelector("#content > div.vyads").remove;
+      let showmorepremiumbtn = document.querySelector("#wordbox > a");
+      showmorepremiumbtn.remove();
     }
   } catch (err) {
     if (err != nil) {
@@ -151,7 +161,7 @@ function Clean_Result(doc) {
       return null;
     }
 
-    //-- Remove Dictionary Section (Don't need anymore (انگلیسی، ترکی، عربی))
+    //-- Remove Button Dictionary Section (Don't need anymore (انگلیسی، ترکی، عربی))
     if ($Dic == null || $Dic == "نتیجه‌ای یافت نگردید.") {
       docword.querySelector("#wordbox > section.dictionary").remove();
     }
@@ -290,9 +300,12 @@ function translate(e) {
     // iframe.contentWindow.document.body.style.background = "red";
 
     var vajehString = new XMLSerializer().serializeToString(vajehWindow);
-    var html = '<html><head><title>واژه‌یاب فارسی</title>' +
-                '<link rel="stylesheet" href="https://www.vajehyab.com/cdn/style.min.css?v=1.2">' +
-                ' </head><body>' + vajehString + '</body></html>';
+    var html =
+      "<html><head><title>واژه‌یاب فارسی</title>" +
+      '<link rel="stylesheet" href="https://www.vajehyab.com/cdn/style.min.css?v=1.2">' +
+      ' </head><body style="padding-bottom: 0px;">' +
+      vajehString +
+      "</body></html>";
     iframe.srcdoc = html;
     vajehWindow = iframe;
     vajehWindow.style.color = "blue";
@@ -305,7 +318,7 @@ function translate(e) {
     vajehWindow.style.opacity = "0.9";
     vajehWindow.style.width = "20%";
     vajehWindow.style.wordWrap = "break-word";
-    vajehWindow.style.left = mx + 10 + "px";
+    vajehWindow.style.left = (mx - 40) + "px";
     vajehWindow.style.dir = "rtl";
 
     var cssstyle = {
@@ -323,18 +336,23 @@ function translate(e) {
       vajehWindow.style.left = parseInt(vajehWindow.style.left) - 200 + "px";
     }
     if (pos.y + vajehWindow.offsetHeight + 30 >= window.innerHeight) {
-      vajehWindow.style.bottom = "20px";
+      vajehWindow.style.bottom = "10px";
     } else {
       vajehWindow.style.top = pos.y + 10 + "px";
     }
-    // if (mx + 200 + 30 >= window.innerWidth) {
-    // 	vajehWindow.style.left = parseInt(vajehWindow.style.left) - 200 + "px";
-    // }
-    // if (my + vajehWindow.offsetHeight + 30 >= window.innerHeight) {
-    // 	vajehWindow.style.bottom = "20px";
-    // } else {
-    // 	vajehWindow.style.top = my + 10 + "px";
-    // }
+    vajehWindow.style.left = parseInt(vajehWindow.style.left) - 200 + "px";
+    vajehWindow.style.bottom = "10px";
+    //if (mx + 200 + 30 >= window.innerWidth) {
+    //vajehWindow.style.left = parseInt(vajehWindow.style.left) - 200 + "px";
+    //  console.log("Width Worked");
+    //}
+    if (my + vajehWindow.offsetHeight + 30 >= window.innerHeight) {
+      //vajehWindow.style.bottom = "10px";
+      //console.log("Height bottom");
+    } else {
+      vajehWindow.style.top = (my + 15) + "px";
+      //console.log("Height top");
+    }
     vajehWindow.style.padding = "5px";
     vajehWindow.style.zIndex = "999999";
 
