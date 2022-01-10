@@ -9,3 +9,5 @@ I recommend Tampermonkey
 https://www.tampermonkey.net/
 
 After install extension you can install "Vajehyab Assistant.userscript.js" by add-ons.
+or by GreasyFork website:
+https://greasyfork.org/en/scripts/438293-vajehyab-assistan
