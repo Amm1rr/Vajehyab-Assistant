@@ -6,6 +6,8 @@ It's a Translator that you can use **Ctrl + Alt + Q** to toggle enable\disable V
 
 Especially on Twitter and reading an article, you can have quick and fast access to one of the best Farsi Database in the World.
 
+[![Screenshot Vajehyab Assistant](https://greasyfork.s3.us-east-2.amazonaws.com/57xgz2if5h0a6hdomtmpm2v8ca60 "Screenshot Vajehyab Assistant")](https://greasyfork.s3.us-east-2.amazonaws.com/57xgz2if5h0a6hdomtmpm2v8ca60 "Screenshot")
+
 ### How to Use
 First you should install one of **GreaseMonkey/TamperMonkey/Violentmonkey** or simillar browser add-ons for your browser **Chrome/Firefox/Edge/Opera/Safari**.
 
@@ -19,6 +21,11 @@ After install extension you can install [**"Vajehyab Assistant.userscript.js"**]
 You can use install VajehYab Assistant by [**GreasyFork website**][Greasyfork].
 
     https://greasyfork.org/en/scripts/438293-vajehyab-assistan
+
+
+<br>
+___
+<br>
 
 ## دستیار واژه یاب
 از وبسایت واژه‌یاب که کتابخانه‌ای عظیم و غنیع از کلمات فارسی است بعنوان دیکشنری و مترجم زبان فارسی استفاده کنید.
