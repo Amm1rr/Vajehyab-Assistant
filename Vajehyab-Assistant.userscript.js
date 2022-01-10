@@ -2,11 +2,11 @@
 // @id              VajehyabAssistan
 // @name            Vajehyab Assistan
 // @name:fa      	  دستیار واژه‌یاب
-// @version         0.3
+// @version         0.5
 // @namespace       mkh
 // @author          Soheyl (soheyl637@gmail.com)
 // @description     Use the VajehYab.com website as a dictionary just by double-clicking on any text. It's a translator.
-// @description:fa  کلمه انتخاب شده را در سایت واژه‌یاب جستجو می‌کند و نمایش می‌دهد
+// @description:fa  کلمه انتخاب شده را در سایت واژه‌یاب جستجو می‌کند و نمایش می‌دهد - Mohammad Khani
 // @include         *
 // @homepage        https://github.com/Soheyl/Vajehyab-Assistant
 // @icon            https://vajehyab.com/icn/favicon.ico
@@ -15,7 +15,6 @@
 // @supportURL      https://github.com/Soheyl/Vajehyab-Assistant/issues
 // @require         https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require         https://code.jquery.com/jquery-3.6.0.slim.min.js
-// @resource        https://vajehyab.com/index.php
 // @resource        https://cdn.jsdelivr.net/gh/Soheyl/Vajehyab-Assistant@main/style-minimal.css
 // @grant           GM_xmlhttpRequest
 // @grant           GM_getResourceText
@@ -91,19 +90,20 @@ function Clean_Result(doc) {
     // );
     var $Dic = docword.querySelector("#wordbox > section.dictionary > div > p");
 
+    let NotFound = "\n            نتیجه‌ای یافت نگردید.         ";
+
     if (
       $MotaradefDic == null &&
       $BarabarFarsiDic == null &&
       $ManiDic == null &&
       $FelDic == null &&
-      $Dic == null
+      $Dic.innerHTML == NotFound
     ) {
       return null;
     }
 
-    let NotFound = "\n            نتیجه‌ای یافت نگردید.         ";
     //-- Remove Button Dictionary Section (Don't need anymore (انگلیسی، ترکی، عربی))
-    if ($Dic == null || $Dic.innerHTML == NotFound) {
+    if ($Dic.innerHTML == NotFound || $Dic == null) {
       docword.querySelector("#wordbox > section.dictionary").remove();
     }
   }
