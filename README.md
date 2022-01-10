@@ -1,9 +1,10 @@
-
 ### [فارسی][Farsi]
 
 ## Vajehyab Assistant
 Use the [**VajehYab.com**][Vajehyab] website as a dictionary, Just by double-clicking or select any text, then results appears as a smooth light pop up.
 It's a Translator that you can use **Ctrl + Alt + Q** to toggle enable\disable Vajehyab Assistant functionality.
+
+Especially on Twitter and reading an article, you can have quick and fast access to one of the best Farsi Database in the World.
 
 ### How to Use
 First you should install one of **GreaseMonkey/TamperMonkey/Violentmonkey** or simillar browser add-ons for your browser **Chrome/Firefox/Edge/Opera/Safari**.
@@ -30,6 +31,11 @@ You can use install VajehYab Assistant by [**GreasyFork website**][Greasyfork].
 
 #### یک روش دیگر برای نصب:
 بعد از نصب یکی از افزونه‌های برید به سایت مخصوص [اسکریپت][Greasyfork] و برروی دکمه **نصب** کلیک کنید. 
+
+## نکته
+ یکی از دلایلی که من این اسکریپت رو نوشتم، بخاطر توییتر بود، توییتهایی که معنی کلمات رو نمیدونستم با این اسکریپت راحت همه چیز رو درباره اون کلمه بدون اینکه از توییتر خارج بشم بدست می‌ارم. همچنین توی مقالاب هم میشه ازش استفاده کرد.
+کلا سایت واژه‌یاب به نظرم یکی از بهترین وبسایت‌های خدمات رسانی فارسی هستش که همه باید بیشتر باهاش آشنا بشند.
+توی تویتتر متأسفانه دیدم که چقدر املای هممون ضعیف شده، با این اسکریپت و اسکریپت‌های مشابه میخوام قدم کوچیکی به این بی‌تفاوتی بردارم. روند توسعه‌اش هم فکر کنم چون خودم به این مبحث علاقه دارم، حالاحالا ها ازش استفاده کنم.
 
 ### این نوشتار همچنان در حال تکمیل و اصلاح می‌باشد.
 
