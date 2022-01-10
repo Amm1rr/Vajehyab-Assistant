@@ -37,4 +37,4 @@ You can use install VajehYab Assistant by [**GreasyFork website**][Greasyfork].
 [Tampermonkey]: "https://www.tampermonkey.net/"
 [Greasyfork]: "https://greasyfork.org/en/scripts/438293-vajehyab-assistan"
 [Scriptfile]: "https://github.com/Soheyl/Vajehyab-Assistant/raw/main/Vajehyab-Assistant.userscript.js"
-[Farsi]: "#دستیار-واژه-یاب"
+[Farsi]: "https://github.com/Soheyl/Vajehyab-Assistant#%D8%AF%D8%B3%D8%AA%DB%8C%D8%A7%D8%B1-%D9%88%D8%A7%DA%98%D9%87-%DB%8C%D8%A7%D8%A8"
