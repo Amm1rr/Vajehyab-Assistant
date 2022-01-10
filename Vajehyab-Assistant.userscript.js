@@ -5,7 +5,7 @@
 // @version         0.5
 // @namespace       mkh
 // @author          Soheyl (soheyl637@gmail.com)
-// @description     Use the VajehYab.com website as a dictionary just by double-clicking on any text. It's a translator.
+// @description     Use the VajehYab.com website as a dictionary, Just by double-clicking or select any text, then results appears as a smooth and light pop up. It's a translator that you can use Ctrl + Alt + Q to toggle enable\disable.
 // @description:fa  کلمه انتخاب شده را در سایت واژه‌یاب جستجو می‌کند و نمایش می‌دهد - Mohammad Khani
 // @include         *
 // @homepage        https://github.com/Soheyl/Vajehyab-Assistant
