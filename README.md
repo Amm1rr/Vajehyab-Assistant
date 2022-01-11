@@ -14,7 +14,7 @@ First you should install one of **GreaseMonkey/TamperMonkey/Violentmonkey** or s
 ##### I recommend [**Tampermonkey**][Tampermonkey].
     https://www.tampermonkey.net/
 
-After install extension you can install [**"Vajehyab Assistant.userscript.js"**][Scriptfile].
+After install extension you can install [**"Vajehyab Assistant.user.js"**][Scriptfile].
 
 #### Another way
 
@@ -52,5 +52,5 @@ ___
 [Vajehyab]: "https://www.vajehyab.com/"
 [Tampermonkey]: "https://www.tampermonkey.net/"
 [Greasyfork]: "https://greasyfork.org/en/scripts/438293-vajehyab-assistan"
-[Scriptfile]: "https://github.com/Soheyl/Vajehyab-Assistant/raw/main/Vajehyab-Assistant.userscript.js"
+[Scriptfile]: "https://github.com/Soheyl/Vajehyab-Assistant/raw/main/Vajehyab-Assistant.user.js"
 [Farsi]: "https://github.com/Soheyl/Vajehyab-Assistant#دستیار-واژه-یاب"
