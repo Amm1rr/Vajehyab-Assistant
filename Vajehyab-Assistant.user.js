@@ -2,18 +2,18 @@
 // @id              VajehyabAssistan
 // @name            Vajehyab Assistan
 // @name:fa      	  دستیار واژه‌یاب
-// @version         0.7
+// @version         0.8
 // @namespace       mkh
-// @author          Soheyl (soheyl637@gmail.com)
-// @description     Use the VajehYab.com website as a dictionary, Just by double-clicking or select any text, then results appears as a smooth and light pop up. It's a translator that you can use Ctrl + Alt + Q to toggle enable\disable.
-// @description:fa  کلمه انتخاب شده را در سایت واژه‌یاب جستجو می‌کند و نمایش می‌دهد - Mohammad Khani
+// @author          Amir (soheyl637@gmail.com)
+// @description     Use the VajehYab.com website as a dictionary. Just double-click or select any text, and the results will appear as a smooth and light pop-up. It is a translator that you can enable/disable by using Ctrl + Alt + Q.
+// @description:fa  کلمه انتخاب شده را در سایت واژه‌یاب جستجو و نمایش می‌دهد - Mohammad Khani
 // @include         *
-// @homepage        https://github.com/Soheyl/Vajehyab-Assistant
+// @homepage        https://github.com/Amm1rr/Vajehyab-Assistant
 // @icon            https://vajehyab.com/icn/favicon.ico
-// @source          https://github.com/Soheyl/Vajehyab-Assistant
-// @updateURL       https://cdn.jsdelivr.net/gh/Soheyl/Vajehyab-Assistant@main/Vajehyab-Assistant.user.js
-// @downloadURL       https://cdn.jsdelivr.net/gh/Soheyl/Vajehyab-Assistant@main/Vajehyab-Assistant.user.js
-// @supportURL      https://github.com/Soheyl/Vajehyab-Assistant/issues
+// @source          https://github.com/Amm1rr/Vajehyab-Assistant
+// @updateURL       https://cdn.jsdelivr.net/gh/Amm1rr/Vajehyab-Assistant@main/Vajehyab-Assistant.user.js
+// @downloadURL       https://cdn.jsdelivr.net/gh/Amm1rr/Vajehyab-Assistant@main/Vajehyab-Assistant.user.js
+// @supportURL      https://github.com/Amm1rr/Vajehyab-Assistant/issues
 // @require         https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require         https://code.jquery.com/jquery-3.6.0.slim.min.js
 // @resource        https://cdn.jsdelivr.net/gh/Soheyl/Vajehyab-Assistant@main/ref/style-minimal.min.css
