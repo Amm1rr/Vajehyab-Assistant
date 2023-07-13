@@ -1,22 +1,21 @@
 // ==UserScript==
-// @id              VajehyabAssistan
 // @name            Vajehyab Assistan
 // @name:fa      	  دستیار واژه‌یاب
-// @version         0.8
-// @namespace       mkh
-// @author          Amir (soheyl637@gmail.com)
+// @version         10
+// @namespace       amm1rr
+// @author          Amir
 // @description     Use the VajehYab.com website as a dictionary. Just double-click or select any text, and the results will appear as a smooth and light pop-up. It is a translator that you can enable/disable by using Ctrl + Alt + Q.
-// @description:fa  کلمه انتخاب شده را در سایت واژه‌یاب جستجو و نمایش می‌دهد - Mohammad Khani
-// @include         *
+// @description:fa  کلمه انتخاب شده را در سایت واژه‌یاب جستجو و نمایش می‌دهد
+// @match           https://twitter.com/*
 // @homepage        https://github.com/Amm1rr/Vajehyab-Assistant
-// @icon            https://vajehyab.com/icn/favicon.ico
+// @icon            https://vajehyab.com/assets/icons/180.png
 // @source          https://github.com/Amm1rr/Vajehyab-Assistant
-// @updateURL       https://cdn.jsdelivr.net/gh/Amm1rr/Vajehyab-Assistant@main/Vajehyab-Assistant.user.js
-// @downloadURL       https://cdn.jsdelivr.net/gh/Amm1rr/Vajehyab-Assistant@main/Vajehyab-Assistant.user.js
+// @updateURL       https://github.com/Amm1rr/Vajehyab-Assistant/raw/main/Vajehyab-Assistant.user.js
+// @downloadURL     https://github.com/Amm1rr/Vajehyab-Assistant/raw/main/Vajehyab-Assistant.user.js
 // @supportURL      https://github.com/Amm1rr/Vajehyab-Assistant/issues
 // @require         https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
 // @require         https://code.jquery.com/jquery-3.6.0.slim.min.js
-// @resource        https://cdn.jsdelivr.net/gh/Soheyl/Vajehyab-Assistant@main/ref/style-minimal.min.css
+// @resource        https://github.com/Amm1rr/Vajehyab-Assistant/raw/main/ref/style-minimal.min.css
 // @grant           GM_xmlhttpRequest
 // @grant           GM_getResourceText
 // @connect         vajehyab.com
@@ -51,11 +50,35 @@ function toggleVajehyab(e) {
 }
 
 function Clean_Result(doc) {
-  //   console.log("Log: " + doc);
 
-  var docword = doc.querySelector("#wordbox");
+  const parser = new DOMParser();
+  const docu = parser.parseFromString(doc, 'text/html');
 
-  if (docword != null) {
+  const headerElement2 = docu.querySelector('.--1gs28b8');
+  if (headerElement2) {
+    headerElement2.parentNode.removeChild(headerElement2);
+  }
+  
+  const headerElement = docu.querySelector('.--115001t');
+  headerElement.parentNode.removeChild(headerElement);
+
+  const searchBar = docu.querySelectorAll('.--1n141gl');
+  searchBar.forEach((bar) => {
+    bar.parentNode.removeChild(bar);
+  });
+
+  const footerElement = docu.querySelector('footer');
+  footerElement.parentNode.removeChild(footerElement);
+
+  const modifiedHTML = docu.documentElement.outerHTML;
+
+  return modifiedHTML;
+
+
+  var docword = docu.querySelector("#wordbox");
+
+
+  if (docword) {
     // docword = doc;
     docword.querySelector("#langs-dropdown").remove();
     docword.querySelector("#langs").remove();
@@ -110,6 +133,8 @@ function Clean_Result(doc) {
     if (Dic == NotFoundText || Dic.trim() == "") {
       docword.querySelector("#wordbox > section.dictionary").remove();
     }
+  }else{
+    docword = doc;
   }
 
   return docword;
@@ -185,7 +210,7 @@ function PopupsRemover() {
 function translate(e) {
   // remove previous .vajehPopup if exists
   PopupsRemover();
-  //console.log("translate start");
+  // console.log("translate start");
   var selectObj = document.getSelection();
 
   // if #text node
@@ -211,20 +236,30 @@ function translate(e) {
     PopupsRemover();
 
     /* HTML Parse */
-    var parser = new DOMParser();
+    const parser = new DOMParser();
 
     // Implament Result HTMLDocument
-    var doc3 = parser.parseFromString(result, "text/html");
+    var doc3 = result //parser.parseFromString(result, "text/html");
 
-    // console.log(new XMLSerializer().serializeToString(doc3));
-    var docvip = MakeVIP(doc3);
-    var vajehWindow = Clean_Result(docvip);
+    //console.log(new XMLSerializer().serializeToString(doc3));
+    // var docvip = MakeVIP(doc3);
+    var vajehWindow = Clean_Result(doc3);
+    // var vajehWindow = docvip
+
+    // console.log("Problem is Here line 220 - " + docvip);
     // console.log(new XMLSerializer().serializeToString(vajehWindow));
     // var vajehWindow = doc3;
 
     if (!vajehWindow) {
       return;
     }
+
+    // // vajehWindow = doc.documentElement;
+    const doc = parser.parseFromString(vajehWindow, 'text/html');
+    const rootNode = doc.documentElement;
+
+    console.log(rootNode);
+    vajehWindow = rootNode;
 
     vajehWindow.classList.toggle("vajehPopup");
 
@@ -413,18 +448,21 @@ function translate(e) {
 
   function translate(word, ts) {
     // var reqUrl = `https://www.vajehyab.com/?q=${word}&d=en&_=1617191412351&ts=${ts}`;
-    var reqUrl = `https://www.vajehyab.com/?q=${word}&d=en`;
-    // console.log("request url: ", reqUrl);
+    // var reqUrl = `https://www.vajehyab.com/?q=${word}&d=en`;
+    var reqUrl = `https://vajehyab.com/?q=${word}`;
+    //console.log("request url: ", reqUrl);
     var ret = GM.xmlHttpRequest({
       method: "GET",
       url: reqUrl,
       headers: { Accept: "application/json" }, // can be omitted...
       onreadystatechange: function (res) {
-        // console.log("Request state changed to: " + res.readyState);
+        //console.log("Request state changed to: " + res.readyState);
       },
       onload: function (res) {
         var retContent = res.response;
         // console.log(retContent);
+        // const parser = new DOMParser();
+        // retContent = parser.parseFromString(retContent, 'text/html');
         popup(mx, my, retContent);
       },
       onerror: function (res) {
@@ -486,7 +524,7 @@ function MakeVIP(doc) {
 }
 
 function PrintElem_DEBUG(elem) {
-  var mywindow = window.open("", "PRINT", "height=400,width=600");
+  var mywindow = window.open("", "PRINT", "height=800,width=600");
 
   mywindow.document.write("<html><head><title>" + document.title + "</title>");
   mywindow.document.write("</head><body >");
