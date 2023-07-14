@@ -22,6 +22,7 @@ You can use install VajehYab Assistant by [**GreasyFork website**][Greasyfork].
 
     https://greasyfork.org/en/scripts/438293-vajehyab-assistan
 
+[![](https://visitcount.itsvg.in/api?id=amm1rr&label=V&color=0&icon=2&pretty=true)](https://github.com/Amm1rr/)
 
 <br>
 ___
