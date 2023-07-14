@@ -6,9 +6,11 @@ It's a Translator that you can use **Ctrl + Alt + Q** to toggle enable\disable V
 
 Especially on Twitter and reading an article, you can have quick and fast access to one of the best Farsi Database in the World.
 
-<br>
+<br><br>
+
 ![Shot 02](Screenshots/Shot2.png)
-<br>
+
+<br><br>
 
 ### How to Use
 First you should install one of **GreaseMonkey/TamperMonkey/Violentmonkey** or simillar browser add-ons for your browser **Chrome/Firefox/Edge/Opera/Safari**.
@@ -40,7 +42,7 @@ ___
 > **نکته:** این افزونه‌ها در کارایی تفاوتی باهم ندارند، ولی من [اینیکی][Tampermonkey] رو بیشتر می‌پسندم.
 
 #### یک روش دیگر برای نصب:
-بعد از نصب یکی از افزونه‌های برید به سایت مخصوص [اسکریپت][Greasyfork] و برروی دکمه **نصب** کلیک کنید. 
+بعد از نصب یکی از افزونه‌های برید به سایت مخصوص [اسکریپت][Greasyfork] و برروی دکمه **نصب** کلیک کنید.
 
     https://greasyfork.org/en/scripts/438293-vajehyab-assistan
 
@@ -48,11 +50,11 @@ ___
  یکی از دلایلی که من این اسکریپت رو نوشتم، بخاطر توییتر بود، توییتهایی که معنی کلمات رو نمیدونستم با این اسکریپت راحت همه چیز رو درباره اون کلمه بدون اینکه از توییتر خارج بشم بدست میارم. همچنین توی مقالات هم می‌شود از این اسکریپت استفاده کرد.
 کلا سایت واژه‌یاب به نظرم یکی از بهترین وبسایت‌های خدمات رسانی فارسی هستش که همه باید بیشتر باهاش آشنا بشند.
 توی تویتتر متأسفانه دیدم که چقدر املای هممون ضعیف شده، با این اسکریپت و اسکریپت‌های مشابه میخوام قدم کوچیکی به این بی‌تفاوتی بردارم. روند توسعه‌اش هم فکر کنم چون خودم به این مبحث علاقه دارم، حالاحالا ها ازش استفاده کنم.
+<br><br>
 
-<br>
 ![Shot 01](Screenshots/Shot1.png)
 
-
+<br>
 
 [Vajehyab]: "https://www.vajehyab.com/"
 [Tampermonkey]: "https://www.tampermonkey.net/"
