@@ -6,7 +6,9 @@ It's a Translator that you can use **Ctrl + Alt + Q** to toggle enable\disable V
 
 Especially on Twitter and reading an article, you can have quick and fast access to one of the best Farsi Database in the World.
 
-[![Screenshot Vajehyab Assistant](https://greasyfork.s3.us-east-2.amazonaws.com/57xgz2if5h0a6hdomtmpm2v8ca60 "Screenshot Vajehyab Assistant")](https://greasyfork.s3.us-east-2.amazonaws.com/57xgz2if5h0a6hdomtmpm2v8ca60 "Screenshot")
+<br>
+![Shot 02](Screenshots/Shot2.png)
+<br>
 
 ### How to Use
 First you should install one of **GreaseMonkey/TamperMonkey/Violentmonkey** or simillar browser add-ons for your browser **Chrome/Firefox/Edge/Opera/Safari**.
@@ -47,12 +49,8 @@ ___
 کلا سایت واژه‌یاب به نظرم یکی از بهترین وبسایت‌های خدمات رسانی فارسی هستش که همه باید بیشتر باهاش آشنا بشند.
 توی تویتتر متأسفانه دیدم که چقدر املای هممون ضعیف شده، با این اسکریپت و اسکریپت‌های مشابه میخوام قدم کوچیکی به این بی‌تفاوتی بردارم. روند توسعه‌اش هم فکر کنم چون خودم به این مبحث علاقه دارم، حالاحالا ها ازش استفاده کنم.
 
-## تصاویر
-[![Shot 01](Screenshots/Shot1.png)]
-
-<br><br>
-
-[![Shot 02](Screenshots/Shot2.png)]
+<br>
+![Shot 01](Screenshots/Shot1.png)
 
 
 
