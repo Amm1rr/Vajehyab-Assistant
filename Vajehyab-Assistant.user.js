@@ -232,36 +232,112 @@ function translate(e) {
     translate(word, ts);
   }
 
-  function popup(mx, my, result) {
+  function getParameter(jsonData, parameter, wrd) {
+
+    let jsdata = JSON.parse(jsonData);
+
+    // data = jsdata.props.pageProps.fallback["هستم:"].data;
+    try {
+      data = jsdata.props.pageProps.fallback[wrd + ":"].data;
+      if (data == undefined){return undefined;}
+    } catch (error) {
+      return undefined;
+    }
+    // console.log(data.Exact.Docs[0].title);
+  
+    switch (parameter) {
+      case 'Query':
+        return data.Query ? data.Query : undefined;
+      case 'Id':
+        return data.Id ? data.Id : undefined;
+      case 'Exact':
+        // return data.Exact ? data.Exact : data.Similar;
+        // return data.Exact && Array.isArray(data.Exact.Docs) && data.Exact.Docs.NumFound > 0 ? data.Exact : data.Similar;
+        // return data.Exact && Array.isArray(data.Exact.Docs) && data.Exact.Docs.NumFound > 0 ? data.Exact : data.Similar;
+        const exa = data.Exact && data.Exact.NumFound > 0 ? data.Exact : undefined;
+        const sim = data.Similar && data.Similar.NumFound > 0 ? data.Similar : undefined;
+        if (exa) {
+          return exa;
+        } else if (sim) {
+          return sim;
+        }
+        return undefined;
+      case 'Similar':
+        return data.Similar ? data.Similar : undefined;
+      case 'Text':
+        return data.Text ? data.Text : undefined;
+      case 'Prefix':
+        return data.Prefix ? data.Prefix : undefined;
+      case 'Mlt':
+        return data.Mlt ? data.Mlt : undefined;
+      case 'Spell':
+        return data.Spell ? data.Spell : undefined;
+      case 'Random':
+        return data.Random ? data.Random : undefined;
+      case 'WordBox':
+        return data.WordBox ? data.WordBox : undefined;
+      default:
+        return undefined;
+    }
+
+    //-- How to Use
+    const query = getParameter(jsonData, 'Query');
+    console.log(query); // Output: کارزار
+    
+    const exactDocs = getParameter(jsonData, 'Exact').Docs;
+    console.log(exactDocs); // Output: [{ dictionary: 'dehkhoda', summary: 'Summry 9' }, { dictionary: 'amid', pron: 'kārzār', summary: 'Summary 8' }]
+    
+    const similarNumFound = getParameter(jsonData, 'Similar').NumFound;
+    console.log(similarNumFound); // Output: 9
+
+  }
+  
+
+  function popup(mx, my, result, wrd) {
+
     PopupsRemover();
 
     /* HTML Parse */
     const parser = new DOMParser();
+    const page = parser.parseFromString(result, 'text/html');
+    const jsontag = page.querySelector('#__NEXT_DATA__');
+    const json = jsontag.innerHTML;
 
-    // Implament Result HTMLDocument
-    var doc3 = result //parser.parseFromString(result, "text/html");
+    const res = getParameter(json, "Exact", wrd);
 
-    //console.log(new XMLSerializer().serializeToString(doc3));
-    // var docvip = MakeVIP(doc3);
-    var vajehWindow = Clean_Result(doc3);
-    // var vajehWindow = docvip
-
-    // console.log("Problem is Here line 220 - " + docvip);
-    // console.log(new XMLSerializer().serializeToString(vajehWindow));
-    // var vajehWindow = doc3;
-
-    if (!vajehWindow) {
+    if (!res){
+      console.log("یافت نشد");
       return;
     }
 
-    // // vajehWindow = doc.documentElement;
-    const doc = parser.parseFromString(vajehWindow, 'text/html');
-    const rootNode = doc.documentElement;
+    // console.log(res);
+    // console.log(res.Docs[0].title);
 
-    console.log(rootNode);
-    vajehWindow = rootNode;
 
-    vajehWindow.classList.toggle("vajehPopup");
+                                                      // // Implament Result HTMLDocument
+                                                      // var doc3 = result; //parser.parseFromString(result, "text/html");
+
+                                                      // //console.log(new XMLSerializer().serializeToString(doc3));
+                                                      // // var docvip = MakeVIP(doc3);
+                                                      // var vajehWindow = Clean_Result(doc3);
+                                                      // // var vajehWindow = docvip
+
+                                                      // // console.log("Problem is Here line 220 - " + docvip);
+                                                      // // console.log(new XMLSerializer().serializeToString(vajehWindow));
+                                                      // // var vajehWindow = doc3;
+
+                                                      // if (!vajehWindow) {
+                                                      //   return;
+                                                      // }
+
+                                                      // // // vajehWindow = doc.documentElement;
+                                                      // const doc = parser.parseFromString(vajehWindow, 'text/html');
+                                                      // const rootNode = doc.documentElement;
+
+                                                      // // console.log(rootNode);
+                                                      // vajehWindow = rootNode;
+
+                                                      // vajehWindow.classList.toggle("vajehPopup");
 
     /* HTML Parse */
     var iframe = document.createElement("iframe");
@@ -279,13 +355,16 @@ function translate(e) {
 
     // iframe.contentWindow.document.body.style.background = "red";
 
-    var vajehString = new XMLSerializer().serializeToString(vajehWindow);
+    // var vajehString = new XMLSerializer().serializeToString(res);
     var html =
       "<html><head><title>واژه‌یاب فارسی</title>" +
       // ' <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Soheyl/Vajehyab-Assistant@main/ref/style-minimal.min.css">' +
       " <style>#notfound h3 .word{color:#aaa;font-weight:200}#notfound .addword .word,#spellcheck .addword .word{font-weight:500}#magicword .word,#wordbox .word{border:none}#magicword .word h1,#magicword .word h3,#wordbox .word h1,#wordbox .word h3{display:inline-block}#magicword .word h3,#wordbox .word h3{color:#aaa;font-size:18px}#magicword .word h1,#wordbox .word h1{font-size:25px;margin-bottom:5px;line-height:30px}#magicword section .content,#wordbox section .content{overflow:hidden}#magicword .verb span,#wordbox .verb span{width:75px;display:inline-block}#wordbox .dictionary p{padding-top:5px}#wordbox .more{padding-top:5px;border-top:1px solid #f1f1f1;text-align:center;display:block;color:#aaa;font-size:14px;background:#fafafa;cursor:pointer}#wordbox .more:hover{background:#fdfdfd}#wordbox .more span{display:block;text-align:center;font-size:21px;margin-top:-4px;padding-bottom:1px}#wordbox{border-radius:4px;border:2px solid #f1f1f1;margin-bottom:10px}#magicword section,#wordbox section{padding:19px 15px;border-top:1px solid #f1f1f1}#magicword .mean h3,#wordbox .mean h3{font-size:18px;color:#777;margin-right:5px}#magicword .mean h2,#wordbox .mean h2{color:#aaa;margin-top:10px;font-size:14px}#magicword .mean h2:empty,#wordbox .mean h2:empty{display:none}#magicword section header h4,#wordbox section header h4{border-radius:2px;float:left;font-size:14px;margin-top:-33px;display:inline-block;background-color:#f1f1f1;padding:5px;color:#797979;width:95px;text-align:center;cursor:pointer;font-weight:200;line-height:16px}#magicword section header h4.closed,#magicword section header h4:hover,#wordbox section header h4.closed,#wordbox section header h4:hover{color:#fff;background:#bbb}.gray{color:#999}a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}table{border-collapse:collapse;border-spacing:0}button,h1,h2,h3,h4,h5,h6,html,input,p,select,textarea{font-family:tahoma;font-family:IRANSans,tahoma;font-weight:300;color:#333}:focus{outline:0}*{outline:0;direction:rtl;text-align:right}body,html{direction:ltr}body{padding-bottom:50px;line-height:25px;overflow-x:hidden}strong{font-weight:500}b{font-weight:500}</style>" +
       ' </head><body style="padding-bottom: 0px; direction:rtl;">' +
-      vajehString +
+      "<header>" +
+      res.Docs[0].title +
+      "</header><hr>" +
+      res.Docs[0].summary +
       "</body></html>";
     iframe.srcdoc = html;
     vajehWindow = iframe;
@@ -446,10 +525,10 @@ function translate(e) {
     }
   }
 
-  function translate(word, ts) {
+  function translate(wrd, ts) {
     // var reqUrl = `https://www.vajehyab.com/?q=${word}&d=en&_=1617191412351&ts=${ts}`;
     // var reqUrl = `https://www.vajehyab.com/?q=${word}&d=en`;
-    var reqUrl = `https://vajehyab.com/?q=${word}`;
+    var reqUrl = `https://vajehyab.com/?q=${wrd}`;
     //console.log("request url: ", reqUrl);
     var ret = GM.xmlHttpRequest({
       method: "GET",
@@ -463,7 +542,7 @@ function translate(e) {
         // console.log(retContent);
         // const parser = new DOMParser();
         // retContent = parser.parseFromString(retContent, 'text/html');
-        popup(mx, my, retContent);
+        popup(mx, my, retContent, wrd);
       },
       onerror: function (res) {
         console.log("error");
@@ -524,7 +603,7 @@ function MakeVIP(doc) {
 }
 
 function PrintElem_DEBUG(elem) {
-  var mywindow = window.open("", "PRINT", "height=800,width=600");
+  var mywindow = window.open("", "PRINT", "height=400,width=500");
 
   mywindow.document.write("<html><head><title>" + document.title + "</title>");
   mywindow.document.write("</head><body >");
