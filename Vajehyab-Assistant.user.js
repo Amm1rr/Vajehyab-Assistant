@@ -173,6 +173,7 @@ function translate(e) {
             case "Id":
                 return data.Id ? data.Id : undefined;
             case "Exact": {
+
                 const exact = [];
 
                 if (data.Exact) {
@@ -182,9 +183,13 @@ function translate(e) {
                 }
 
                 if (exact.length == 0) {
-                    exact.push(
-                        data.Similar.Docs ? data.Similar.Docs : undefined
-                    );
+
+                    const similar = [];
+                    if (data.Similar) {
+                        for (const doc of data.Similar.Docs) {
+                            exact.push(doc);
+                        }
+                    }
                 }
 
                 return exact;
@@ -230,7 +235,13 @@ function translate(e) {
 
         const res = getParameter(json, "Exact", wrd);
 
-        if (typeof res === undefined || res[0].length < 2 || !res) {
+        if (
+            typeof res === "undefined" ||
+            !Array.isArray(res) ||
+            res.length < 1 ||
+            typeof res[0] === "undefined" ||
+            res[0].length < 2
+        ) {
             console.log("یافت نشد");
             return;
         }
@@ -252,7 +263,7 @@ function translate(e) {
             "<html><head><title>واژه‌یاب فارسی</title>" +
             ' </head><body style="padding-bottom: 0px; direction:rtl; padding-right:15px;">';
         for (let i = 0; i < res.length; i++) {
-            html += "<header>" + res[i].title + "<hr>";
+            html += "<header>" + res[i].title + "  |  " + res[i].dictionary + "<hr>";
             html += res[i].summary + "</header><br>";
         }
         html += "</body></html>";
