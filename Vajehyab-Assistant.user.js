@@ -43,91 +43,6 @@ function toggleVajehyab(e) {
     }
 }
 
-function Clean_Result(doc) {
-    const parser = new DOMParser();
-    const docu = parser.parseFromString(doc, "text/html");
-
-    const headerElement2 = docu.querySelector(".--1gs28b8");
-    if (headerElement2) {
-        headerElement2.parentNode.removeChild(headerElement2);
-    }
-
-    const headerElement = docu.querySelector(".--115001t");
-    headerElement.parentNode.removeChild(headerElement);
-
-    const searchBar = docu.querySelectorAll(".--1n141gl");
-    searchBar.forEach((bar) => {
-        bar.parentNode.removeChild(bar);
-    });
-
-    const footerElement = docu.querySelector("footer");
-    footerElement.parentNode.removeChild(footerElement);
-
-    const modifiedHTML = docu.documentElement.outerHTML;
-
-    return modifiedHTML;
-}
-
-function calculatePosition(x, y, popup) {
-    const pos = {};
-    const margin = 5;
-    const anchor = 10;
-
-    const outerWidth = $(popup).outerWidth();
-    const outerHeight = $(popup).outerHeight();
-
-    // show popup to the right of the word if it fits into window this way
-    if (x + anchor + outerWidth + margin < $(window).width()) {
-        pos.x = x + anchor;
-    }
-    // show popup to the left of the word if it fits into window this way
-    else if (x - anchor - outerWidth - margin > 0) {
-        pos.x = x - anchor - outerWidth;
-    }
-    // show popup at the very left if it is not wider than window
-    else if (outerWidth + margin * 2 < $(window).width()) {
-        pos.x = margin;
-    }
-    // resize popup width to fit into window and position it the very left of the window
-    else {
-        const non_content_x = outerWidth - $(popup).width();
-
-        $(popup).width($(window).width() - margin * 2 - non_content_x);
-
-        pos.x = margin;
-    }
-
-    // show popup above the word if it fits into window this way
-    if (y - anchor - outerHeight - margin > 0) {
-        pos.y = y - anchor - outerHeight;
-    }
-    // show popup below the word if it fits into window this way
-    else if (y + anchor + outerHeight + margin < $(window).height()) {
-        pos.y = y + anchor;
-    }
-    // show popup at the very top of the window
-    else {
-        pos.y = margin;
-    }
-
-    return pos;
-}
-
-function PopupsRemover() {
-    // remove previous .vajehPopup if exists
-    var previous = document.querySelector(".vajehPopup");
-    while (previous) {
-        document.body.removeChild(previous);
-        previous = document.querySelector(".vajehPopup");
-    }
-
-    previous = document.querySelector("#vajehiframe");
-    while (previous) {
-        document.body.removeChild(previous);
-        previous = document.querySelector("#vajehiframe");
-    }
-}
-
 function translate(e) {
     // remove previous .vajehPopup if exists
     PopupsRemover();
@@ -153,6 +68,66 @@ function translate(e) {
         GetTranslate(word, ts);
     }
 
+    function PopupsRemover() {
+        // remove previous .vajehPopup if exists
+        var previous = document.querySelector(".vajehPopup");
+        while (previous) {
+            document.body.removeChild(previous);
+            previous = document.querySelector(".vajehPopup");
+        }
+
+        previous = document.querySelector("#vajehiframe");
+        while (previous) {
+            document.body.removeChild(previous);
+            previous = document.querySelector("#vajehiframe");
+        }
+    }
+
+    function calculatePosition(x, y, popup) {
+        const pos = {};
+        const margin = 5;
+        const anchor = 10;
+
+        const outerWidth = $(popup).outerWidth();
+        const outerHeight = $(popup).outerHeight();
+
+        // show popup to the right of the word if it fits into window this way
+        if (x + anchor + outerWidth + margin < $(window).width()) {
+            pos.x = x + anchor;
+        }
+        // show popup to the left of the word if it fits into window this way
+        else if (x - anchor - outerWidth - margin > 0) {
+            pos.x = x - anchor - outerWidth;
+        }
+        // show popup at the very left if it is not wider than window
+        else if (outerWidth + margin * 2 < $(window).width()) {
+            pos.x = margin;
+        }
+        // resize popup width to fit into window and position it the very left of the window
+        else {
+            const non_content_x = outerWidth - $(popup).width();
+
+            $(popup).width($(window).width() - margin * 2 - non_content_x);
+
+            pos.x = margin;
+        }
+
+        // show popup above the word if it fits into window this way
+        if (y - anchor - outerHeight - margin > 0) {
+            pos.y = y - anchor - outerHeight;
+        }
+        // show popup below the word if it fits into window this way
+        else if (y + anchor + outerHeight + margin < $(window).height()) {
+            pos.y = y + anchor;
+        }
+        // show popup at the very top of the window
+        else {
+            pos.y = margin;
+        }
+
+        return pos;
+    }
+
     function getParameter(jsonData, parameter, wrd) {
         let jsdata = JSON.parse(jsonData);
         let data;
@@ -173,7 +148,6 @@ function translate(e) {
             case "Id":
                 return data.Id ? data.Id : undefined;
             case "Exact": {
-
                 const exact = [];
 
                 if (data.Exact) {
@@ -183,7 +157,6 @@ function translate(e) {
                 }
 
                 if (exact.length == 0) {
-
                     const similar = [];
                     if (data.Similar) {
                         for (const doc of data.Similar.Docs) {
@@ -263,7 +236,12 @@ function translate(e) {
             "<html><head><title>واژه‌یاب فارسی</title>" +
             ' </head><body style="padding-bottom: 0px; direction:rtl; padding-right:15px;">';
         for (let i = 0; i < res.length; i++) {
-            html += "<header>" + res[i].title + "  |  " + res[i].dictionary + "<hr>";
+            html +=
+                "<header>" +
+                res[i].title +
+                "  |  " +
+                res[i].dictionary +
+                "<hr>";
             html += res[i].summary + "</header><br>";
         }
         html += "</body></html>";
@@ -285,7 +263,7 @@ function translate(e) {
 
         var cssstyle = {
             "overflow-y": "scroll",
-            height: "60%",
+            height: "40%",
         };
         Object.assign(vajehWindow.style, cssstyle);
 
@@ -345,83 +323,4 @@ function translate(e) {
             },
         });
     }
-}
-
-function MakeVIP(doc) {
-    try {
-        if (doc != null || doc != undefined) {
-            let magicword = doc.getElementById("magicword");
-            if (magicword != null && magicword != undefined) {
-                magicword.classList.replace("nopremium", "premium");
-            }
-            let ispre = doc.getElementById("is_premium");
-            if (ispre != null && ispre != undefined) {
-                ispre.value = "1";
-            }
-
-            let isads = doc.getElementsByClassName("vyads");
-            if (isads != null && isads != undefined) {
-                isads[0].remove();
-            }
-            let ads = doc.querySelector("#content > div.vyads");
-            if (ads != null && ads != undefined) {
-                ads.remove();
-            }
-            let showmorepremiumbtn = doc.querySelector("#wordbox > a");
-            if (showmorepremiumbtn != null && showmorepremiumbtn != undefined) {
-                showmorepremiumbtn.remove();
-            }
-        }
-        if (window.location.href.indexOf("vajehyab.com") > -1) {
-            /* Todo:
-                      - It's not optimize and also might not need to use IF condition Is
-                  */
-            let magicword = document.getElementById("magicword");
-            if (magicword == null || magicword == undefined) {
-                return;
-            }
-            magicword.classList.replace("nopremium", "premium");
-            document.getElementById("is_premium").value = "1";
-            document.getElementsByClassName("vyads")[0].remove;
-            document.querySelector("#content > div.vyads").remove;
-            let showmorepremiumbtn = document.querySelector("#wordbox > a");
-            if (showmorepremiumbtn != null && showmorepremiumbtn != undefined) {
-                showmorepremiumbtn.remove();
-            }
-        }
-    } catch (err) {
-        if (err != null) {
-            console.log(err);
-        }
-    } finally {
-        return doc;
-    }
-}
-
-function PrintElem_DEBUG(elem) {
-    var mywindow = window.open("", "PRINT", "height=400,width=500");
-
-    mywindow.document.write(
-        "<html><head><title>" + document.title + "</title>"
-    );
-    mywindow.document.write("</head><body >");
-    mywindow.document.write("<h1>" + document.title + "</h1>");
-    mywindow.document.write(document.getElementById(elem).innerHTML);
-    mywindow.document.write("</body></html>");
-
-    mywindow.document.close(); // necessary for IE >= 10
-    mywindow.focus(); // necessary for IE >= 10*/
-
-    mywindow.print();
-    mywindow.close();
-
-    return true;
-}
-
-function printDiv_DEBUG(divName) {
-    var printContents = document.getElementById(divName).innerHTML;
-    var originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
 }
