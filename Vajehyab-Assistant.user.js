@@ -7,6 +7,7 @@
 // @description     Use the VajehYab.com website as a dictionary. Just double-click or select any text, and the results will appear as a smooth and light pop-up. It is a translator that you can enable/disable by using Ctrl + Alt + Q.
 // @description:fa  کلمه انتخاب شده را در سایت واژه‌یاب جستجو و نمایش می‌دهد
 // @match           https://twitter.com/*
+// @include         *
 // @homepage        https://github.com/Amm1rr/Vajehyab-Assistant
 // @icon            https://vajehyab.com/assets/icons/180.png
 // @source          https://github.com/Amm1rr/Vajehyab-Assistant
@@ -21,13 +22,6 @@
 // @connect         vajehyab.com
 // @license         MIT
 // ==/UserScript==
-
-/*
-waitForKeyElements (".-cx-PRIVATE-ProfilePage__avatar", visibleCounter);
-function visibleCounter(jNode){
-    // Custome Code
-}
-*/
 
 // window.getSelection().toString()
 
@@ -58,7 +52,7 @@ function Clean_Result(doc) {
   if (headerElement2) {
     headerElement2.parentNode.removeChild(headerElement2);
   }
-  
+
   const headerElement = docu.querySelector('.--115001t');
   headerElement.parentNode.removeChild(headerElement);
 
@@ -144,11 +138,9 @@ function calculatePosition(x, y, popup) {
   const pos = {};
   const margin = 5;
   const anchor = 10;
-  // console.log(popup);
-  //const outerWidth = Number(popup.attr("outer-width"));
-  //const outerHeight = Number(popup.attr("outer-height"));
-  const outerWidth = Number($(popup).outerWidth());
-  const outerHeight = Number($(popup).outerHeight());
+
+  const outerWidth = $(popup).outerWidth();
+  const outerHeight = $(popup).outerHeight();
 
   // show popup to the right of the word if it fits into window this way
   if (x + anchor + outerWidth + margin < $(window).width()) {
@@ -164,14 +156,11 @@ function calculatePosition(x, y, popup) {
   }
   // resize popup width to fit into window and position it the very left of the window
   else {
-    const non_content_x = outerWidth - Number($(popup).outerWidth());
+    const non_content_x = outerWidth - $(popup).width();
 
-    $(popup).outerWidth(
-      "content-width",
+    $(popup).width(
       $(window).width() - margin * 2 - non_content_x
     );
-
-    $(popup).outerWidth("content-height", Number($(popup).outerWidth()) + 4);
 
     pos.x = margin;
   }
@@ -229,12 +218,13 @@ function translate(e) {
     //console.log("time: ", ts);
     var mx = e.clientX;
     var my = e.clientY;
-    translate(word, ts);
+    GetTranslate(word, ts);
   }
 
   function getParameter(jsonData, parameter, wrd) {
 
     let jsdata = JSON.parse(jsonData);
+    let data;
 
     // data = jsdata.props.pageProps.fallback["هستم:"].data;
     try {
@@ -244,17 +234,14 @@ function translate(e) {
       return undefined;
     }
     // console.log(data.Exact.Docs[0].title);
-  
+
     switch (parameter) {
       case 'Query':
         return data.Query ? data.Query : undefined;
       case 'Id':
         return data.Id ? data.Id : undefined;
-      case 'Exact':
-        // return data.Exact ? data.Exact : data.Similar;
-        // return data.Exact && Array.isArray(data.Exact.Docs) && data.Exact.Docs.NumFound > 0 ? data.Exact : data.Similar;
-        // return data.Exact && Array.isArray(data.Exact.Docs) && data.Exact.Docs.NumFound > 0 ? data.Exact : data.Similar;
-        const exa = data.Exact && data.Exact.NumFound > 0 ? data.Exact : undefined;
+      case 'Exact': {
+        const exa = data.Exact   && data.Exact.NumFound   > 0 ? data.Exact   : undefined;
         const sim = data.Similar && data.Similar.NumFound > 0 ? data.Similar : undefined;
         if (exa) {
           return exa;
@@ -262,6 +249,7 @@ function translate(e) {
           return sim;
         }
         return undefined;
+      }
       case 'Similar':
         return data.Similar ? data.Similar : undefined;
       case 'Text':
@@ -283,15 +271,15 @@ function translate(e) {
     //-- How to Use
     const query = getParameter(jsonData, 'Query');
     console.log(query); // Output: کارزار
-    
+
     const exactDocs = getParameter(jsonData, 'Exact').Docs;
     console.log(exactDocs); // Output: [{ dictionary: 'dehkhoda', summary: 'Summry 9' }, { dictionary: 'amid', pron: 'kārzār', summary: 'Summary 8' }]
-    
+
     const similarNumFound = getParameter(jsonData, 'Similar').NumFound;
     console.log(similarNumFound); // Output: 9
 
   }
-  
+
 
   function popup(mx, my, result, wrd) {
 
@@ -367,7 +355,7 @@ function translate(e) {
       res.Docs[0].summary +
       "</body></html>";
     iframe.srcdoc = html;
-    vajehWindow = iframe;
+    let vajehWindow = iframe;
     vajehWindow.style.color = "blue";
     vajehWindow.style.textAlign = "right";
     vajehWindow.style.display = "block";
@@ -415,122 +403,15 @@ function translate(e) {
     }
     vajehWindow.style.padding = "5px";
     vajehWindow.style.zIndex = "999999";
-
-    function word() {
-      function play(word) {
-        //console.log("[DEBUG] PLAYOUND")
-
-        function playSound(buffer) {
-          var source = context.createBufferSource();
-          source.buffer = buffer;
-          source.connect(context.destination);
-          source.start(0);
-        }
-
-        var context = new AudioContext();
-        var soundUrl = `https://dict.youdao.com/dictvoice?type=2&audio=${word}`;
-        var p = new Promise(function (resolve, reject) {
-          var ret = GM.xmlHttpRequest({
-            method: "GET",
-            url: soundUrl,
-            responseType: "arraybuffer",
-            onload: function (res) {
-              try {
-                context.decodeAudioData(res.response, function (buffer) {
-                  resolve(buffer);
-                });
-              } catch (e) {
-                reject(e);
-              }
-            },
-          });
-        });
-        p.then(playSound, function (e) {
-          console.log(e);
-        });
-      }
-
-      var basic = dictJSON["basic"];
-      var header = document.createElement("p");
-      // header
-      var span = document.createElement("span");
-      span.innerHTML = query;
-      header.appendChild(span);
-      // phonetic if there is
-      var phonetic = basic["phonetic"];
-      if (phonetic) {
-        var phoneticNode = document.createElement("span");
-        phoneticNode.innerHTML = "[" + phonetic + "]";
-        phoneticNode.style.cursor = "pointer";
-        header.appendChild(phoneticNode);
-        var playLogo = document.createElement("span");
-        header.appendChild(phoneticNode);
-        phoneticNode.addEventListener(
-          "mouseup",
-          function (e) {
-            if (e.target === phoneticNode) {
-              e.stopPropagation();
-              play(query);
-            }
-          },
-          false
-        );
-      }
-      header.style.color = "darkBlue";
-      header.style.margin = "0";
-      header.style.padding = "0";
-      span.style.fontweight = "900";
-      span.style.color = "black";
-
-      vajehWindow.appendChild(header);
-      var hr = document.createElement("hr");
-      hr.style.margin = "0";
-      hr.style.padding = "0";
-      hr.style.height = "1px";
-      hr.style.borderTop = "dashed 1px black";
-      vajehWindow.appendChild(hr);
-      var ul = document.createElement("ul");
-      // ul style
-      ul.style.margin = "0";
-      ul.style.padding = "0";
-      basic["explains"].map(function (trans) {
-        var li = document.createElement("li");
-        li.style.listStyle = "none";
-        li.style.margin = "0";
-        li.style.padding = "0";
-        li.style.background = "none";
-        li.style.color = "inherit";
-        li.appendChild(document.createTextNode(trans));
-        ul.appendChild(li);
-      });
-      vajehWindow.appendChild(ul);
-    }
-
-    function sentence() {
-      var ul = document.createElement("ul");
-      // ul style
-      ul.style.margin = "0";
-      ul.style.padding = "0";
-      dictJSON["translation"].map(function (trans) {
-        var li = document.createElement("li");
-        li.style.listStyle = "none";
-        li.style.margin = "0";
-        li.style.padding = "0";
-        li.style.background = "none";
-        li.style.color = "inherit";
-        li.appendChild(document.createTextNode(trans));
-        ul.appendChild(li);
-      });
-      vajehWindow.appendChild(ul);
-    }
   }
 
-  function translate(wrd, ts) {
+  function GetTranslate(wrd, ts) {
     // var reqUrl = `https://www.vajehyab.com/?q=${word}&d=en&_=1617191412351&ts=${ts}`;
     // var reqUrl = `https://www.vajehyab.com/?q=${word}&d=en`;
-    var reqUrl = `https://vajehyab.com/?q=${wrd}`;
+    let trimWord = wrd.trim();
+    let reqUrl = `https://vajehyab.com/?q=${trimWord}`;
     //console.log("request url: ", reqUrl);
-    var ret = GM.xmlHttpRequest({
+    let ret = GM.xmlHttpRequest({
       method: "GET",
       url: reqUrl,
       headers: { Accept: "application/json" }, // can be omitted...
@@ -538,11 +419,11 @@ function translate(e) {
         //console.log("Request state changed to: " + res.readyState);
       },
       onload: function (res) {
-        var retContent = res.response;
+        let retContent = res.response;
         // console.log(retContent);
         // const parser = new DOMParser();
         // retContent = parser.parseFromString(retContent, 'text/html');
-        popup(mx, my, retContent, wrd);
+        popup(mx, my, retContent, trimWord);
       },
       onerror: function (res) {
         console.log("error");
@@ -559,7 +440,7 @@ function MakeVIP(doc) {
         magicword.classList.replace("nopremium", "premium");
       }
       let ispre = doc.getElementById("is_premium");
-      if (ispre != nul && ispre != undefined) {
+      if (ispre != null && ispre != undefined) {
         ispre.value = "1";
       }
 
@@ -594,7 +475,7 @@ function MakeVIP(doc) {
       }
     }
   } catch (err) {
-    if (err != nul) {
+    if (err != null) {
       console.log(err);
     }
   } finally {
