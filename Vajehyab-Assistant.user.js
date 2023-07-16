@@ -150,35 +150,89 @@ function translate(e) {
             case "Exact": {
                 const exact = [];
 
-                if (data.Exact) {
-                    for (const doc of data.Exact.Docs) {
-                        exact.push(doc);
-                    }
-                }
+                if (data.WordBox) {
+                    // console.log(data.WordBox);
 
-                if (exact.length == 0) {
-                    const similar = [];
-                    if (data.Similar) {
-                        for (const doc of data.Similar.Docs) {
+                    let nullCount = 0;
+                    let totalCount = 0;
+
+                    for (const dictionaryName in data.WordBox) {
+                        totalCount++;
+                        if (data.WordBox.hasOwnProperty(dictionaryName)) {
+                            const dictionary = data.WordBox[dictionaryName];
+                            if (dictionary && dictionary.dictionary) {
+                                const dicname = dictionary.dictionary;
+                                // console.log(`Title for ${dictionaryName}: ${dicname}`);
+
+                                const dataobjEntry = {
+                                    dictionary: dicname,
+                                    dictionary_id: dictionary.dictionary_id,
+                                    id: dictionary.id,
+                                    score: dictionary.score,
+                                    slug: dictionary.slug,
+                                    summary: dictionary.description,
+                                    title: dictionary.title,
+                                };
+
+                                // Add dataobjEntry to eact array
+                                exact.push(dataobjEntry);
+                            } else {
+                                //// Count null dictionary.id values
+                                // if (dictionary.id === null) {
+                                nullCount++;
+                                // }
+                                // Check if more than half of dictionary.id values are null
+                            }
+
+                            // switch (dictionaryName) {
+                            //     // case "Query":
+                            //     case "Amid":
+                            //         exact.push();
+                            //     // case "Motaradef":
+                            //     // case "Sereh":
+                            //     // case "En2fa":
+                            //     // case "Fa2en":
+                            // }
+                        }
+                    }
+                    if (nullCount > totalCount / 2) {
+                        if (data.Exact) {
+                            for (const doc of data.Exact.Docs) {
+                                exact.push(doc);
+                            }
+                        }
+
+                        if (exact.length == 0) {
+                            const similar = [];
+                            if (data.Similar) {
+                                for (const doc of data.Similar.Docs) {
+                                    exact.push(doc);
+                                }
+                            }
+                        }
+                    }
+
+                    return exact;
+                } else {
+                    if (data.Exact) {
+                        for (const doc of data.Exact.Docs) {
                             exact.push(doc);
                         }
                     }
-                }
 
-                return exact;
+                    if (exact.length == 0) {
+                        const similar = [];
+                        if (data.Similar) {
+                            for (const doc of data.Similar.Docs) {
+                                exact.push(doc);
+                            }
+                        }
+                    }
+                    return exact;
+                }
             }
             case "Similar":
                 return data.Similar ? data.Similar : undefined;
-
-            // const similar = data.Similar.Docs.map((doc) => ({
-            //   dictionary: doc.dictionary,
-            //   dictionary_id: doc.dictionary_id,
-            //   id: doc.id,
-            //   score: doc.score,
-            //   slug: doc.slug,
-            //   summary: doc.summary,
-            //   title: doc.title
-            // }));
 
             case "Text":
                 return data.Text ? data.Text : undefined;
@@ -219,12 +273,12 @@ function translate(e) {
             return;
         }
 
-        // Move amid's dictionary first.
-        res.sort((a, b) => {
-            if (a.dictionary === "amid") return -1;
-            if (b.dictionary === "amid") return 1;
-            return a.dictionary.localeCompare(b.dictionary);
-        });
+        // // Move amid's dictionary first.
+        // res.sort((a, b) => {
+        //     if (a.dictionary === "amid") return -1;
+        //     if (b.dictionary === "amid") return 1;
+        //     return a.dictionary.localeCompare(b.dictionary);
+        // });
 
         // Mapping of English dictionary names to Persian Names
         const dictionaryNames = {
@@ -234,13 +288,13 @@ function translate(e) {
             isfahani: "اصفهانی",
             mazani: "مازنی",
             fa2en: "انگلیسی",
+            motaradef: "مترادف",
             fa2tr: "ترکی",
             fa2ar: "عربی",
             en2fa: "EN",
             ar2fa: "AR",
             sereh: "سِرِه",
-            wiki:  "ویکی",
-
+            wiki: "ویکی",
         };
 
         // console.log(res);
@@ -260,9 +314,9 @@ function translate(e) {
             "<html><head><title>واژه‌یاب فارسی</title>" +
             ' </head><body style="padding-bottom: 0px; direction:rtl; padding-right:15px;">';
         for (let i = 0; i < res.length; i++) {
+            const persianDictionary =
+                dictionaryNames[res[i].dictionary] || res[i].dictionary;
 
-          const persianDictionary = dictionaryNames[res[i].dictionary] || res[i].dictionary;
-          
             html +=
                 "<header>" +
                 res[i].title +
