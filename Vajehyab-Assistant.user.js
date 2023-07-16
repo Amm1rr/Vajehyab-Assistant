@@ -230,15 +230,17 @@ function translate(e) {
         const dictionaryNames = {
             amid: "امید",
             dehkhoda: "دهخدا",
-            fa2en: "انگلیسی",
+            moein: "معین",
             isfahani: "اصفهانی",
             mazani: "مازنی",
             fa2en: "انگلیسی",
             fa2tr: "ترکی",
             fa2ar: "عربی",
-            en2fa: "دیکشنری انگلیسی",
-            tr2fa: "دیکشنری ترکی",
-            ar2fa: "دیکشنری عربی",
+            en2fa: "EN",
+            ar2fa: "AR",
+            sereh: "سِرِه",
+            wiki:  "ویکی",
+
         };
 
         // console.log(res);
