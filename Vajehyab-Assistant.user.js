@@ -219,6 +219,28 @@ function translate(e) {
             return;
         }
 
+        // Move amid's dictionary first.
+        res.sort((a, b) => {
+            if (a.dictionary === "amid") return -1;
+            if (b.dictionary === "amid") return 1;
+            return a.dictionary.localeCompare(b.dictionary);
+        });
+
+        // Mapping of English dictionary names to Persian Names
+        const dictionaryNames = {
+            amid: "امید",
+            dehkhoda: "دهخدا",
+            fa2en: "انگلیسی",
+            isfahani: "اصفهانی",
+            mazani: "مازنی",
+            fa2en: "انگلیسی",
+            fa2tr: "ترکی",
+            fa2ar: "عربی",
+            en2fa: "دیکشنری انگلیسی",
+            tr2fa: "دیکشنری ترکی",
+            ar2fa: "دیکشنری عربی",
+        };
+
         // console.log(res);
         // console.log(res[0].title);
 
@@ -236,11 +258,14 @@ function translate(e) {
             "<html><head><title>واژه‌یاب فارسی</title>" +
             ' </head><body style="padding-bottom: 0px; direction:rtl; padding-right:15px;">';
         for (let i = 0; i < res.length; i++) {
+
+          const persianDictionary = dictionaryNames[res[i].dictionary] || res[i].dictionary;
+          
             html +=
                 "<header>" +
                 res[i].title +
                 "  |  " +
-                res[i].dictionary +
+                persianDictionary +
                 "<hr>";
             html += res[i].summary + "</header><br>";
         }
