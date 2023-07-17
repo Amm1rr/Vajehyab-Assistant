@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            Vajehyab Assistan
-// @name:fa      	  دستیار واژه‌یاب
-// @version         10
+// @name:fa      	دستیار واژه‌یاب
+// @version         11
 // @namespace       amm1rr
 // @author          Amir
 // @description     Use the VajehYab.com website as a dictionary. Just double-click or select any text, and the results will appear as a smooth and light pop-up. It is a translator that you can enable/disable by using Ctrl + Alt + Q.
@@ -318,12 +318,12 @@ function translate(e) {
                 dictionaryNames[res[i].dictionary] || res[i].dictionary;
 
             html +=
-                "<header>" +
+                "<header><div style='float:right;color:rgb(158, 63, 26);'>" +
                 res[i].title +
-                "  |  " +
+                "</div><div style='float:left;font-size:12px;color:green;'>" +
                 persianDictionary +
-                "<hr>";
-            html += res[i].summary + "</header><br>";
+                "</div></header><br><hr>";
+            html += "<div style='font-size:14px;'>" + res[i].summary + "</div><br><br>";
         }
         html += "</body></html>";
 
