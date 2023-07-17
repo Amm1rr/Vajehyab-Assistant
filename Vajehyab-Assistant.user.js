@@ -310,6 +310,7 @@ function translate(e) {
         // document.body.appendChild(vajehWindow);
         document.body.appendChild(iframe);
 
+        var direc = "rtl";
         var html =
             "<html><head><title>واژه‌یاب فارسی</title>" +
             ' </head><body style="padding-bottom: 0px; direction:rtl; padding-right:15px;">';
@@ -317,13 +318,24 @@ function translate(e) {
             const persianDictionary =
                 dictionaryNames[res[i].dictionary] || res[i].dictionary;
 
+            if (persianDictionary == "انگلیسی" || persianDictionary == "ترکی") {
+                direc = "ltr";
+            } else {
+                direc = "rtl";
+            }
+
             html +=
                 "<header><div style='float:right;color:rgb(158, 63, 26);'>" +
                 res[i].title +
                 "</div><div style='float:left;font-size:12px;color:green;'>" +
                 persianDictionary +
                 "</div></header><br><hr>";
-            html += "<div style='font-size:14px;'>" + res[i].summary + "</div><br><br>";
+            html +=
+                "<div style='direction:" +
+                direc +
+                "; font-size:14px;'>" +
+                res[i].summary +
+                "</div><br>";
         }
         html += "</body></html>";
 
