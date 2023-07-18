@@ -83,6 +83,51 @@ function translate(e) {
         }
     }
 
+    // function calculatePosition(x, y, popup) {
+    //     const pos = {};
+    //     const margin = 5;
+    //     const anchor = 10;
+
+    //     const outerWidth = $(popup).outerWidth();
+    //     const outerHeight = $(popup).outerHeight();
+
+    //     // show popup to the right of the word if it fits into window this way
+    //     if (x + anchor + outerWidth + margin < $(window).width()) {
+    //         pos.x = x + anchor;
+    //     }
+    //     // show popup to the left of the word if it fits into window this way
+    //     else if (x - anchor - outerWidth - margin > 0) {
+    //         pos.x = x - anchor - outerWidth;
+    //     }
+    //     // show popup at the very left if it is not wider than window
+    //     else if (outerWidth + margin * 2 < $(window).width()) {
+    //         pos.x = margin;
+    //     }
+    //     // resize popup width to fit into window and position it the very left of the window
+    //     else {
+    //         const non_content_x = outerWidth - $(popup).width();
+
+    //         $(popup).width($(window).width() - margin * 2 - non_content_x);
+
+    //         pos.x = margin;
+    //     }
+
+    //     // show popup above the word if it fits into window this way
+    //     if (y - anchor - outerHeight - margin > 0) {
+    //         pos.y = y - anchor - outerHeight;
+    //     }
+    //     // show popup below the word if it fits into window this way
+    //     else if (y + anchor + outerHeight + margin < $(window).height()) {
+    //         pos.y = y + anchor;
+    //     }
+    //     // show popup at the very top of the window
+    //     else {
+    //         pos.y = margin;
+    //     }
+
+    //     return pos;
+    // }
+
     function calculatePosition(x, y, popup) {
         const pos = {};
         const margin = 5;
@@ -123,6 +168,26 @@ function translate(e) {
         // show popup at the very top of the window
         else {
             pos.y = margin;
+        }
+
+        const scrollBarWidth = $(window).width() - $(document).width();
+
+        if (scrollBarWidth > 0) {
+            margin += scrollBarWidth;
+        }
+
+        if (window.orientation === "landscape") {
+            const temp = pos.x;
+            pos.x = pos.y;
+            pos.y = temp;
+        }
+
+        if (pos.x === x + anchor) {
+            const scrollBarLeft = $(window).scrollLeft();
+
+            if (scrollBarLeft > x) {
+                pos.x -= scrollBarLeft;
+            }
         }
 
         return pos;
@@ -360,27 +425,26 @@ function translate(e) {
         };
         Object.assign(vajehWindow.style, cssstyle);
 
-        // frames[0].document.querySelector("html").dir = "rtl";
-        // document.querySelector("html").dir = "rtl";
-
         var pos = calculatePosition(mx, my, vajehWindow);
 
-        if (pos.x + 200 + 30 >= window.innerWidth) {
-            vajehWindow.style.left =
-                parseInt(vajehWindow.style.left) - 200 + "px";
+        if (pos.x >= window.innerWidth || 500 >= window.innerWidth) {
+            vajehWindow.style.left = "20px";
+            vajehWindow.style.width = window.innerWidth - 55 + "px";
+            vajehWindow.style.height = "25%";
+        } else if (1000 >= window.innerWidth) {
+            vajehWindow.style.width = "30%";
+            vajehWindow.style.height = "25%";
+        } else {
+            vajehWindow.style.left = pos.x;
         }
-        if (pos.y + vajehWindow.offsetHeight + 30 >= window.innerHeight) {
+
+        if (pos.y + vajehWindow.offsetHeight + 10 >= window.innerHeight) {
             vajehWindow.style.bottom = "10px";
         } else {
             vajehWindow.style.top = pos.y + 10 + "px";
         }
-        vajehWindow.style.left = parseInt(vajehWindow.style.left) - 200 + "px";
-        vajehWindow.style.bottom = "10px";
-        //if (mx + 200 + 30 >= window.innerWidth) {
-        //vajehWindow.style.left = parseInt(vajehWindow.style.left) - 200 + "px";
-        //  console.log("Width Worked");
-        //}
-        if (my + vajehWindow.offsetHeight + 30 >= window.innerHeight) {
+
+        if (my + vajehWindow.offsetHeight + 10 >= window.innerHeight) {
             //vajehWindow.style.bottom = "10px";
             //console.log("Height bottom");
         } else {
