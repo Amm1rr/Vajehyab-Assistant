@@ -451,6 +451,11 @@ function translate(e) {
             vajehWindow.style.top = my + 15 + "px";
             //console.log("Height top");
         }
+
+        if (pos.x + vajehWindow.offsetWidth + 55 >= window.innerWidth) {
+            vajehWindow.style.left = window.innerWidth - vajehWindow.offsetWidth - 20 + "px";
+        }
+
         vajehWindow.style.padding = "5px";
         vajehWindow.style.zIndex = "999999";
     }
