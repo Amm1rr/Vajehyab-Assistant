@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name            Vajehyab Assistan
 // @name:fa      	دستیار واژه‌یاب
-// @version         11
-// @namespace       amm1rr
+// @version         0.11
 // @author          Amir
 // @description     Use the VajehYab.com website as a dictionary. Just double-click or select any text, and the results will appear as a smooth and light pop-up. It is a translator that you can enable/disable by using Ctrl + Alt + Q.
 // @description:fa  کلمه انتخاب شده را در سایت واژه‌یاب جستجو و نمایش می‌دهد
+// @namespace       amm1rr
 // @match           https://twitter.com/*
 // @include         *
 // @homepage        https://github.com/Amm1rr/Vajehyab-Assistant
